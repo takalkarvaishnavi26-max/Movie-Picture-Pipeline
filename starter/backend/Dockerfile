@@ -17,8 +17,10 @@ COPY Pipfile Pipfile.lock ./
 
 RUN pipenv sync --system
 
-COPY . .
+RUN mkdir -p /app/backend
+
+COPY . /app/backend/
 
 EXPOSE 5000
 
-CMD ["uwsgi", "--http", ":5000", "--master", "--enable-threads", "--manage-script-name", "--mount", "/=__init__:app"]
+CMD ["uwsgi", "--http", ":5000", "--master", "--enable-threads", "--manage-script-name", "--mount", "/=backend:app"]
